@@ -8,6 +8,7 @@ import com.core.banking.domain.model.Account;
 import com.core.banking.domain.repository.AccountRepository;
 import com.core.banking.domain.service.AccountService;
 import com.core.banking.exception.NotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,13 @@ public class AccountServiceImpl implements AccountService
 {
 	@Autowired
 	private AccountRepository accountRepository;
+
+	private static Account initializeAccount(AccountCreationDTO accountCreationDTO)
+	{
+		return Account.builder().id(UUID.randomUUID().toString()).balance(BigDecimal.ZERO)
+				.type(accountCreationDTO.type()).status(
+						AccountStatusEnum.OPEN.name()).build();
+	}
 
 	@Override
 	public AccountDTO create(AccountCreationDTO accountCreationDTO)
@@ -39,10 +47,22 @@ public class AccountServiceImpl implements AccountService
 		return AccountToAccountDTOConverter.convert(accountOptional.get());
 	}
 
-	private static Account initializeAccount(AccountCreationDTO accountCreationDTO)
+	@Override
+	@Transactional
+	public void deposit(String id, BigDecimal amount)
 	{
-		return Account.builder().id(UUID.randomUUID().toString()).balance(BigDecimal.ZERO)
-				.type(accountCreationDTO.type()).status(
-						AccountStatusEnum.OPEN.name()).build();
+		var accountDTO = get(id);
+		BigDecimal newBalance = accountDTO.balance().add(amount);
+		accountRepository.updateAccountBalance(id, newBalance);
 	}
+
+	@Override
+	@Transactional
+	public void withdraw(String id, BigDecimal amount)
+	{
+		var accountDTO = get(id);
+		BigDecimal newBalance = accountDTO.balance().subtract(amount);
+		accountRepository.updateAccountBalance(id, newBalance);
+	}
+
 }

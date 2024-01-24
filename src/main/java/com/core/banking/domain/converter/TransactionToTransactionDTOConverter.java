@@ -11,7 +11,8 @@ public class TransactionToTransactionDTOConverter
 		return TransactionDTO.builder().id(transaction.getId())
 				.amount(transaction.getAmount())
 				.accountId(transaction.getAccountId())
-				.type(transaction.getType())
+				.type(transaction.getType().name())
+				.status(transaction.getStatus().name())
 				.createdAt(transaction.getCreatedAt())
 				.updatedAt(transaction.getUpdatedAt())
 				.build();

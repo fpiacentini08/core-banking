@@ -1,5 +1,7 @@
 package com.core.banking.domain.model;
 
+import com.core.banking.domain.enums.TransactionStatusEnum;
+import com.core.banking.domain.enums.TransactionTypeEnum;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
@@ -23,7 +25,8 @@ public class Transaction
 	private String id;
 	private String accountId;
 	private BigDecimal amount;
-	private String type;
+	private TransactionTypeEnum type;
+	private TransactionStatusEnum status;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 
