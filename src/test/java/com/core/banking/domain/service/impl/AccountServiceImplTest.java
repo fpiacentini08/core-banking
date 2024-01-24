@@ -1,5 +1,6 @@
 package com.core.banking.domain.service.impl;
 
+import com.core.banking.domain.dto.AccountCreationDTO;
 import com.core.banking.domain.model.Account;
 import com.core.banking.domain.repository.AccountRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +37,7 @@ public class AccountServiceImplTest
 	{
 		final String type = "CHECKING";
 		when(accountRepository.save(any())).thenReturn(Account.builder().build());
-		var account = accountService.create(type);
+		var account = accountService.create(AccountCreationDTO.builder().type("CHECKING").build());
 		assertNotNull(account);
 		assertNotNull(account.id());
 		assertEquals(type, account.type());
