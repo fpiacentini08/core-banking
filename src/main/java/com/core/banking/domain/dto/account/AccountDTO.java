@@ -1,4 +1,4 @@
-package com.core.banking.domain.dto;
+package com.core.banking.domain.dto.account;
 
 import lombok.Builder;
 

@@ -1,6 +1,6 @@
 package com.core.banking.domain.converter;
 
-import com.core.banking.domain.dto.AccountDTO;
+import com.core.banking.domain.dto.account.AccountDTO;
 import com.core.banking.domain.model.Account;
 
 public class AccountToAccountDTOConverter

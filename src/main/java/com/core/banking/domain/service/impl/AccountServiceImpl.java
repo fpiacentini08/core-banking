@@ -1,24 +1,24 @@
 package com.core.banking.domain.service.impl;
 
 import com.core.banking.domain.converter.AccountToAccountDTOConverter;
-import com.core.banking.domain.dto.AccountCreationDTO;
-import com.core.banking.domain.dto.AccountDTO;
+import com.core.banking.domain.dto.account.AccountCreationDTO;
+import com.core.banking.domain.dto.account.AccountDTO;
 import com.core.banking.domain.enums.AccountStatusEnum;
 import com.core.banking.domain.model.Account;
 import com.core.banking.domain.repository.AccountRepository;
 import com.core.banking.domain.service.AccountService;
 import com.core.banking.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
-@Component
+@Service
 public class AccountServiceImpl implements AccountService
 {
 	@Autowired
-	AccountRepository accountRepository;
+	private AccountRepository accountRepository;
 
 	@Override
 	public AccountDTO create(AccountCreationDTO accountCreationDTO)
