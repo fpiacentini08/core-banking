@@ -1,7 +1,7 @@
 package com.core.banking.rest;
 
-import com.core.banking.domain.dto.AccountCreationDTO;
-import com.core.banking.domain.dto.AccountDTO;
+import com.core.banking.domain.dto.account.AccountCreationDTO;
+import com.core.banking.domain.dto.account.AccountDTO;
 import com.core.banking.domain.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

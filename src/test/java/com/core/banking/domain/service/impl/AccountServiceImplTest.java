@@ -1,7 +1,7 @@
 package com.core.banking.domain.service.impl;
 
-import com.core.banking.domain.dto.AccountCreationDTO;
-import com.core.banking.domain.dto.AccountDTO;
+import com.core.banking.domain.dto.account.AccountCreationDTO;
+import com.core.banking.domain.dto.account.AccountDTO;
 import com.core.banking.domain.model.Account;
 import com.core.banking.domain.repository.AccountRepository;
 import com.core.banking.exception.NotFoundException;
