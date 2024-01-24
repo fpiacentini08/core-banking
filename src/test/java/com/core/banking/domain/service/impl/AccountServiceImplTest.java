@@ -4,6 +4,7 @@ import com.core.banking.domain.dto.AccountCreationDTO;
 import com.core.banking.domain.dto.AccountDTO;
 import com.core.banking.domain.model.Account;
 import com.core.banking.domain.repository.AccountRepository;
+import com.core.banking.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -68,10 +69,8 @@ public class AccountServiceImplTest
 	void givenIdThatDoesNotExist_whenGetAccount_thenGetAccountAndThrowException()
 	{
 		final String id = "123456";
-		var fixedAccountDTO = AccountDTO.builder().id(id).balance(BigDecimal.valueOf(10)).type("CHECKING")
-				.status("CLOSED").build();
 		when(accountRepository.findById(id)).thenReturn(Optional.empty());
-		assertThrows(RuntimeException.class , () -> accountService.get(id));
+		assertThrows(NotFoundException.class , () -> accountService.get(id));
 	}
 
 }

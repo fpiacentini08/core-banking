@@ -7,8 +7,7 @@ import com.core.banking.domain.enums.AccountStatusEnum;
 import com.core.banking.domain.model.Account;
 import com.core.banking.domain.repository.AccountRepository;
 import com.core.banking.domain.service.AccountService;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.core.banking.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,8 +32,9 @@ public class AccountServiceImpl implements AccountService
 	public AccountDTO get(String id)
 	{
 		var accountOptional = accountRepository.findById(id);
-		if(accountOptional.isEmpty()){
-			throw new RuntimeException("Account not found");
+		if (accountOptional.isEmpty())
+		{
+			throw new NotFoundException("01", "Account not found");
 		}
 		return AccountToAccountDTOConverter.convert(accountOptional.get());
 	}
