@@ -36,7 +36,7 @@ public class TransactionControllerTest
 	private static TransactionDTO defaultTransactionDTO()
 	{
 		return TransactionDTO.builder().id("123456").accountId("789456").amount(BigDecimal.valueOf(13))
-				.type("DEPOSIT").createdAt(
+				.type("DEPOSIT").status("APPROVED").createdAt(
 						LocalDateTime.MAX).updatedAt(LocalDateTime.MAX).build();
 	}
 

@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -71,6 +72,32 @@ public class AccountServiceImplTest
 		final String id = "123456";
 		when(accountRepository.findById(id)).thenReturn(Optional.empty());
 		assertThrows(NotFoundException.class , () -> accountService.get(id));
+	}
+
+	@Test
+	void givenIdAndAmount_whenDeposit_thenAddBalance(){
+		var id = "123456";
+		var amount = BigDecimal.valueOf(10);
+		var expectedAccount = Account.builder().id(id).balance(BigDecimal.valueOf(15)).type("CHECKING").status("OPEN")
+				.build();
+		var newAmount = BigDecimal.valueOf(25);
+		when(accountRepository.findById(id)).thenReturn(Optional.of(expectedAccount));
+		doNothing().when(accountRepository).updateAccountBalance(id, newAmount);
+		accountService.deposit(id, amount);
+		verify(accountRepository, times(1)).updateAccountBalance(id, newAmount);
+	}
+
+	@Test
+	void givenIdAndAmount_whenWithdraw_thenSubstractBalance(){
+		var id = "123456";
+		var amount = BigDecimal.valueOf(10);
+		var expectedAccount = Account.builder().id(id).balance(BigDecimal.valueOf(15)).type("CHECKING").status("OPEN")
+				.build();
+		var newAmount = BigDecimal.valueOf(5);
+		when(accountRepository.findById(id)).thenReturn(Optional.of(expectedAccount));
+		doNothing().when(accountRepository).updateAccountBalance(id, newAmount);
+		accountService.withdraw(id, amount);
+		verify(accountRepository, times(1)).updateAccountBalance(id, newAmount);
 	}
 
 }
