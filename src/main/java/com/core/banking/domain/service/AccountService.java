@@ -5,6 +5,7 @@ import com.core.banking.domain.dto.AccountDTO;
 
 public interface AccountService
 {
-	public AccountDTO create(AccountCreationDTO accountCreationDTO);
+	AccountDTO create(AccountCreationDTO accountCreationDTO);
 
+	AccountDTO get(String id);
 }

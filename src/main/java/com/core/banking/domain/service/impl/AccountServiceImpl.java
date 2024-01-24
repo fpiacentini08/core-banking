@@ -29,6 +29,16 @@ public class AccountServiceImpl implements AccountService
 		return AccountToAccountDTOConverter.convert(newAccount);
 	}
 
+	@Override
+	public AccountDTO get(String id)
+	{
+		var accountOptional = accountRepository.findById(id);
+		if(accountOptional.isEmpty()){
+			throw new RuntimeException("Account not found");
+		}
+		return AccountToAccountDTOConverter.convert(accountOptional.get());
+	}
+
 	private static Account initializeAccount(AccountCreationDTO accountCreationDTO)
 	{
 		return Account.builder().id(UUID.randomUUID().toString()).balance(BigDecimal.ZERO)

@@ -46,4 +46,15 @@ public class AccountControllerTest
 		assertEquals(defaultAccountDTO(), account);
 		verify(accountService, times(1)).create(any());
 	}
+
+	@Test
+	void givenId_whenCallGetAccount_thenCallServiceAndReturnAccount()
+	{
+		when(accountService.get("123456")).thenReturn(defaultAccountDTO());
+		var account = accountController.getAccount("123456");
+		assertNotNull(account);
+		assertEquals(defaultAccountDTO(), account);
+		verify(accountService, times(1)).get("123456");
+	}
+
 }
