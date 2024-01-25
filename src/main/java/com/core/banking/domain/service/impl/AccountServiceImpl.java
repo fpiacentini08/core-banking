@@ -20,6 +20,7 @@ import static com.core.banking.exception.codes.ErrorCodesList.ACCOUNT_NOT_FOUND;
 @Service
 public class AccountServiceImpl implements AccountService
 {
+
 	@Autowired
 	private AccountRepository accountRepository;
 
@@ -66,5 +67,4 @@ public class AccountServiceImpl implements AccountService
 		BigDecimal newBalance = accountDTO.balance().subtract(amount);
 		accountRepository.updateAccountBalance(id, newBalance);
 	}
-
 }

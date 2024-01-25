@@ -8,6 +8,7 @@ import com.core.banking.domain.model.Transaction;
 import com.core.banking.domain.repository.TransactionRepository;
 import com.core.banking.domain.service.AccountService;
 import com.core.banking.domain.service.ExecuteTransactionService;
+import com.core.banking.utils.LockByKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,14 +23,18 @@ public class ExecuteTransactionServiceImpl implements ExecuteTransactionService
 	@Autowired
 	TransactionRepository transactionRepository;
 
+	private final LockByKey lockByKey = new LockByKey();
+
 	@Override
 	public TransactionDTO execute(ExecuteTransactionDTO executeTransactionDTO)
 	{
+		lockByKey.lock(executeTransactionDTO.accountId());
 		switch (executeTransactionDTO.type())
 		{
 			case DEPOSIT -> executeDeposit(executeTransactionDTO);
 			case WITHDRAW -> executeWithdraw(executeTransactionDTO);
 		}
+		lockByKey.unlock(executeTransactionDTO.accountId());
 		return registerTransaction(executeTransactionDTO);
 	}
 
