@@ -34,3 +34,5 @@ build/
 .mvn/
 mvnw
 mvnw.cmd
+
+e2e/__pycache__/*.pyc
