@@ -40,7 +40,7 @@ public class AccountServiceImpl implements AccountService
 	}
 
 	@Override
-	public synchronized AccountDTO get(String id)
+	public AccountDTO get(String id)
 	{
 		var accountOptional = accountRepository.findById(id);
 		if (accountOptional.isEmpty())
@@ -62,7 +62,7 @@ public class AccountServiceImpl implements AccountService
 
 	@Override
 	@Transactional
-	public synchronized void withdraw(String id, BigDecimal amount)
+	public void withdraw(String id, BigDecimal amount)
 	{
 		var accountDTO = get(id);
 		BigDecimal newBalance = accountDTO.balance().subtract(amount);
