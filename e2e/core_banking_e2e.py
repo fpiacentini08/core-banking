@@ -31,10 +31,14 @@ def test_get_account_by_id():
 def test_get_account_by_id_does_not_exist():
     get_account_response = requests.get(f"{core_banking_url_accounts}/123456", headers=headers)
     assert get_account_response.status_code == 404
+    assert get_account_response.json()['code'] == "01"
+    assert get_account_response.json()['message'] == "Account not found"
 
 def test_get_transaction_by_id_does_not_exist():
     get_transaction_response = requests.get(f"{core_banking_url_transactions}/123456", headers=headers)
     assert get_transaction_response.status_code == 404
+    assert get_transaction_response.json()['code'] == "02"
+    assert get_transaction_response.json()['message'] == "Transaction not found"
 
 
 def test_execute_deposit_and_get_transaction_by_id():
