@@ -21,7 +21,7 @@ public class RestControllerAdvice extends ResponseEntityExceptionHandler
 	protected ResponseEntity<Object> handleConflict(
 			NotFoundException ex, WebRequest request)
 	{
-		StatusResponseDTO statusResponseDTO = buildStatusResponseDTOFromException(ex.getErrorCode());
+		StatusResponseDTO statusResponseDTO = buildStatusResponseDTOFromErrorCode(ex.getErrorCode());
 		return handleExceptionInternal(ex, statusResponseDTO,
 				new HttpHeaders(), HttpStatus.NOT_FOUND, request);
 	}
@@ -32,12 +32,12 @@ public class RestControllerAdvice extends ResponseEntityExceptionHandler
 	protected ResponseEntity<Object> handleConflict(
 			BadRequestException ex, WebRequest request)
 	{
-		StatusResponseDTO statusResponseDTO = buildStatusResponseDTOFromException(ex.getErrorCode());
+		StatusResponseDTO statusResponseDTO = buildStatusResponseDTOFromErrorCode(ex.getErrorCode());
 		return handleExceptionInternal(ex, statusResponseDTO,
 				new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 	}
 
-	private static StatusResponseDTO buildStatusResponseDTOFromException(ErrorCode errorCode)
+	private static StatusResponseDTO buildStatusResponseDTOFromErrorCode(ErrorCode errorCode)
 	{
 		return StatusResponseDTO.builder().code(errorCode.code()).message(errorCode.message()).build();
 	}
