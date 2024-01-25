@@ -57,7 +57,6 @@ public class AccountServiceImpl implements AccountService
 		var accountDTO = get(id);
 		BigDecimal newBalance = accountDTO.balance().add(amount);
 		accountRepository.updateAccountBalance(id, newBalance);
-		accountRepository.flush();
 	}
 
 	@Override
@@ -67,6 +66,5 @@ public class AccountServiceImpl implements AccountService
 		var accountDTO = get(id);
 		BigDecimal newBalance = accountDTO.balance().subtract(amount);
 		accountRepository.updateAccountBalance(id, newBalance);
-		accountRepository.flush();
 	}
 }

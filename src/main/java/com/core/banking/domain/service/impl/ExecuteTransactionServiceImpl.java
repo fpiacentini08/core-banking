@@ -9,8 +9,6 @@ import com.core.banking.domain.repository.TransactionRepository;
 import com.core.banking.domain.service.AccountService;
 import com.core.banking.domain.service.ExecuteTransactionService;
 import com.core.banking.utils.LockByKey;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +18,6 @@ import java.util.concurrent.locks.ReentrantLock;
 @Service
 public class ExecuteTransactionServiceImpl implements ExecuteTransactionService
 {
-	private static final Logger logger = LoggerFactory.getLogger(ExecuteTransactionServiceImpl.class);
-	public static final int LOCK_TIMEOUT = 1000;
 	@Autowired
 	AccountService accountService;
 
