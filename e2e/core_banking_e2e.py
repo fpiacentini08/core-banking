@@ -157,3 +157,4 @@ def test_execute_withdraw_twice():
     get_account_response = requests.get(f"{core_banking_url_accounts}/{account_id}", headers=headers)
     assert get_account_response.status_code == 200
     assert get_account_response.json()['balance'] == -50
+
