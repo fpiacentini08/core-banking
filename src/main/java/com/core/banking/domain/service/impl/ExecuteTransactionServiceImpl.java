@@ -48,8 +48,8 @@ public class ExecuteTransactionServiceImpl implements ExecuteTransactionService
 		var transaction = Transaction.builder()
 				.accountId(executeTransactionDTO.accountId())
 				.amount(executeTransactionDTO.amount())
-				.status(TransactionStatusEnum.APPROVED)
-				.type(executeTransactionDTO.type())
+				.status(TransactionStatusEnum.APPROVED.name())
+				.type(executeTransactionDTO.type().name())
 				.id(UUID.randomUUID().toString())
 				.build();
 		var savedTransaction = transactionRepository.save(transaction);
