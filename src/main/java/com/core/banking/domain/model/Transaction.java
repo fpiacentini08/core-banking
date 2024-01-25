@@ -1,7 +1,5 @@
 package com.core.banking.domain.model;
 
-import com.core.banking.domain.enums.TransactionStatusEnum;
-import com.core.banking.domain.enums.TransactionTypeEnum;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
@@ -25,8 +23,8 @@ public class Transaction
 	private String id;
 	private String accountId;
 	private BigDecimal amount;
-	private TransactionTypeEnum type;
-	private TransactionStatusEnum status;
+	private String type;
+	private String status;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 
@@ -38,7 +36,8 @@ public class Transaction
 	}
 
 	@PreUpdate
-	public void onPreUpdate(){
+	public void onPreUpdate()
+	{
 		this.updatedAt = LocalDateTime.now();
 	}
 }

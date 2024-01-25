@@ -47,9 +47,9 @@ public class ExecuteTransactionServiceImplTest
 		final var executeTransactionDTO = ExecuteTransactionDTO.builder().type(TransactionTypeEnum.DEPOSIT)
 				.accountId("123456").amount(BigDecimal.valueOf(10)).build();
 
-		final var expectedTransaction = Transaction.builder().type(TransactionTypeEnum.DEPOSIT).id("789456")
+		final var expectedTransaction = Transaction.builder().type(TransactionTypeEnum.DEPOSIT.name()).id("789456")
 				.amount(BigDecimal.valueOf(10)).accountId("123456")
-				.status(TransactionStatusEnum.APPROVED).createdAt(LocalDateTime.MAX).updatedAt(LocalDateTime.MAX)
+				.status(TransactionStatusEnum.APPROVED.name()).createdAt(LocalDateTime.MAX).updatedAt(LocalDateTime.MAX)
 				.build();
 		final var expectedTransactionDTO = TransactionDTO.builder().type("DEPOSIT").id("789456")
 				.amount(BigDecimal.valueOf(10)).accountId("123456")
@@ -73,9 +73,9 @@ public class ExecuteTransactionServiceImplTest
 		final var executeTransactionDTO = ExecuteTransactionDTO.builder().type(TransactionTypeEnum.WITHDRAW)
 				.accountId("123456").amount(BigDecimal.valueOf(10)).build();
 
-		final var expectedTransaction = Transaction.builder().type(TransactionTypeEnum.WITHDRAW).id("789456")
+		final var expectedTransaction = Transaction.builder().type(TransactionTypeEnum.WITHDRAW.name()).id("789456")
 				.amount(BigDecimal.valueOf(10)).accountId("123456")
-				.status(TransactionStatusEnum.APPROVED).createdAt(LocalDateTime.MAX).updatedAt(LocalDateTime.MAX)
+				.status(TransactionStatusEnum.APPROVED.name()).createdAt(LocalDateTime.MAX).updatedAt(LocalDateTime.MAX)
 				.build();
 		final var expectedTransactionDTO = TransactionDTO.builder().type("WITHDRAW").id("789456")
 				.amount(BigDecimal.valueOf(10)).accountId("123456")

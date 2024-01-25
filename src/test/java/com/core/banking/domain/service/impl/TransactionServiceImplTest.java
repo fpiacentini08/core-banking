@@ -45,7 +45,7 @@ public class TransactionServiceImplTest
 				.type("DEPOSIT").status("APPROVED").createdAt(
 						LocalDateTime.MAX).updatedAt(LocalDateTime.MAX).build();
 		var expectedTransaction = Transaction.builder().id(id).accountId("789456").amount(BigDecimal.valueOf(13))
-				.type(TransactionTypeEnum.DEPOSIT).status(TransactionStatusEnum.APPROVED).createdAt(
+				.type(TransactionTypeEnum.DEPOSIT.name()).status(TransactionStatusEnum.APPROVED.name()).createdAt(
 						LocalDateTime.MAX).updatedAt(LocalDateTime.MAX).build();
 		when(transactionRepository.findById(id)).thenReturn(Optional.of(expectedTransaction));
 		var accountDTOResponse = transactionService.get(id);
