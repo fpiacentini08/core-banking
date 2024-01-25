@@ -32,7 +32,7 @@ public class Transaction
 	public void onPrePersist()
 	{
 		this.createdAt = LocalDateTime.now();
-		this.updatedAt = LocalDateTime.now();
+		this.updatedAt = this.createdAt;
 	}
 
 	@PreUpdate

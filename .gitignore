@@ -35,4 +35,4 @@ build/
 mvnw
 mvnw.cmd
 
-e2e/__pycache__/*.pyc
+e2e/__pycache__/
