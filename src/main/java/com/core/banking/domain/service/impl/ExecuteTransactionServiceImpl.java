@@ -24,8 +24,7 @@ public class ExecuteTransactionServiceImpl implements ExecuteTransactionService
 	@Autowired
 	TransactionRepository transactionRepository;
 
-	private LockByKey lockByKey = new LockByKey();
-	private ReentrantLock lock = new ReentrantLock();
+	private final LockByKey lockByKey = new LockByKey();
 
 	@Override
 	public TransactionDTO execute(ExecuteTransactionDTO executeTransactionDTO)
