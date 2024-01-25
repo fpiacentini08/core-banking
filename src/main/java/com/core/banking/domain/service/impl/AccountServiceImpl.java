@@ -20,6 +20,7 @@ import static com.core.banking.exception.codes.ErrorCodesList.ACCOUNT_NOT_FOUND;
 @Service
 public class AccountServiceImpl implements AccountService
 {
+
 	@Autowired
 	private AccountRepository accountRepository;
 
@@ -39,7 +40,7 @@ public class AccountServiceImpl implements AccountService
 	}
 
 	@Override
-	public AccountDTO get(String id)
+	public synchronized AccountDTO get(String id)
 	{
 		var accountOptional = accountRepository.findById(id);
 		if (accountOptional.isEmpty())
@@ -56,15 +57,16 @@ public class AccountServiceImpl implements AccountService
 		var accountDTO = get(id);
 		BigDecimal newBalance = accountDTO.balance().add(amount);
 		accountRepository.updateAccountBalance(id, newBalance);
+		accountRepository.flush();
 	}
 
 	@Override
 	@Transactional
-	public void withdraw(String id, BigDecimal amount)
+	public synchronized void withdraw(String id, BigDecimal amount)
 	{
 		var accountDTO = get(id);
 		BigDecimal newBalance = accountDTO.balance().subtract(amount);
 		accountRepository.updateAccountBalance(id, newBalance);
+		accountRepository.flush();
 	}
-
 }

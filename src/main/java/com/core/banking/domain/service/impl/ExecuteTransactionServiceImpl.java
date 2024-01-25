@@ -8,28 +8,39 @@ import com.core.banking.domain.model.Transaction;
 import com.core.banking.domain.repository.TransactionRepository;
 import com.core.banking.domain.service.AccountService;
 import com.core.banking.domain.service.ExecuteTransactionService;
+import com.core.banking.utils.LockByKey;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Service
 public class ExecuteTransactionServiceImpl implements ExecuteTransactionService
 {
+	private static final Logger logger = LoggerFactory.getLogger(ExecuteTransactionServiceImpl.class);
+	public static final int LOCK_TIMEOUT = 1000;
 	@Autowired
 	AccountService accountService;
 
 	@Autowired
 	TransactionRepository transactionRepository;
 
+	private LockByKey lockByKey = new LockByKey();
+	private ReentrantLock lock = new ReentrantLock();
+
 	@Override
 	public TransactionDTO execute(ExecuteTransactionDTO executeTransactionDTO)
 	{
+		lockByKey.lock(executeTransactionDTO.accountId());
 		switch (executeTransactionDTO.type())
 		{
 			case DEPOSIT -> executeDeposit(executeTransactionDTO);
 			case WITHDRAW -> executeWithdraw(executeTransactionDTO);
 		}
+		lockByKey.unlock(executeTransactionDTO.accountId());
 		return registerTransaction(executeTransactionDTO);
 	}
 
