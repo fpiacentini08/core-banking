@@ -10,6 +10,8 @@ import com.core.banking.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static com.core.banking.exception.codes.ErrorCodesList.TRANSACTION_NOT_FOUND;
+
 @Service
 public class TransactionServiceImpl implements TransactionService
 {
@@ -22,7 +24,7 @@ public class TransactionServiceImpl implements TransactionService
 		var transactionOptional = transactionRepository.findById(id);
 		if (transactionOptional.isEmpty())
 		{
-			throw new NotFoundException("02", "Transaction not found");
+			throw new NotFoundException(TRANSACTION_NOT_FOUND);
 		}
 		return TransactionToTransactionDTOConverter.convert(transactionOptional.get());
 	}
