@@ -8,12 +8,15 @@ import com.core.banking.domain.model.Account;
 import com.core.banking.domain.repository.AccountRepository;
 import com.core.banking.domain.service.AccountService;
 import com.core.banking.exception.NotFoundException;
+import com.core.banking.exception.codes.ErrorCodesList;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.UUID;
+
+import static com.core.banking.exception.codes.ErrorCodesList.ACCOUNT_NOT_FOUND;
 
 @Service
 public class AccountServiceImpl implements AccountService
@@ -42,7 +45,7 @@ public class AccountServiceImpl implements AccountService
 		var accountOptional = accountRepository.findById(id);
 		if (accountOptional.isEmpty())
 		{
-			throw new NotFoundException("01", "Account not found");
+			throw new NotFoundException(ACCOUNT_NOT_FOUND);
 		}
 		return AccountToAccountDTOConverter.convert(accountOptional.get());
 	}

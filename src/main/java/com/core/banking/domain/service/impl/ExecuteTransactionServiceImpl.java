@@ -8,7 +8,6 @@ import com.core.banking.domain.model.Transaction;
 import com.core.banking.domain.repository.TransactionRepository;
 import com.core.banking.domain.service.AccountService;
 import com.core.banking.domain.service.ExecuteTransactionService;
-import com.core.banking.exception.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

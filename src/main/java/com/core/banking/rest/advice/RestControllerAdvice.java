@@ -1,8 +1,9 @@
-package com.core.banking.rest;
+package com.core.banking.rest.advice;
 
 import com.core.banking.domain.dto.StatusResponseDTO;
 import com.core.banking.exception.BadRequestException;
 import com.core.banking.exception.NotFoundException;
+import com.core.banking.exception.codes.ErrorCode;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class RestControllerAdvice extends ResponseEntityExceptionHandler
 	protected ResponseEntity<Object> handleConflict(
 			NotFoundException ex, WebRequest request)
 	{
-		var statusResponseDTO = StatusResponseDTO.builder().code(ex.getCode()).message(ex.getMessage()).build();
+		StatusResponseDTO statusResponseDTO = buildStatusResponseDTOFromException(ex.getErrorCode());
 		return handleExceptionInternal(ex, statusResponseDTO,
 				new HttpHeaders(), HttpStatus.NOT_FOUND, request);
 	}
@@ -31,8 +32,13 @@ public class RestControllerAdvice extends ResponseEntityExceptionHandler
 	protected ResponseEntity<Object> handleConflict(
 			BadRequestException ex, WebRequest request)
 	{
-		var statusResponseDTO = StatusResponseDTO.builder().code(ex.getCode()).message(ex.getMessage()).build();
+		StatusResponseDTO statusResponseDTO = buildStatusResponseDTOFromException(ex.getErrorCode());
 		return handleExceptionInternal(ex, statusResponseDTO,
 				new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+	}
+
+	private static StatusResponseDTO buildStatusResponseDTOFromException(ErrorCode errorCode)
+	{
+		return StatusResponseDTO.builder().code(errorCode.code()).message(errorCode.message()).build();
 	}
 }
