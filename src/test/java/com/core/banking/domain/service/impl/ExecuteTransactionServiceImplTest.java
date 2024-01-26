@@ -7,6 +7,7 @@ import com.core.banking.domain.enums.TransactionStatusEnum;
 import com.core.banking.domain.enums.TransactionTypeEnum;
 import com.core.banking.domain.model.Transaction;
 import com.core.banking.domain.repository.TransactionRepository;
+import com.core.banking.utils.LockByKeyDistributed;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -15,11 +16,13 @@ import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.concurrent.locks.Lock;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -34,6 +37,9 @@ public class ExecuteTransactionServiceImplTest
 
 	@Mock
 	AccountServiceImpl accountService;
+
+	@Mock
+	LockByKeyDistributed lockByKey;
 
 	@BeforeEach
 	public void setup()
@@ -58,6 +64,7 @@ public class ExecuteTransactionServiceImplTest
 
 		doNothing().when(accountService).deposit(executeTransactionDTO.accountId(), executeTransactionDTO.amount());
 		when(transactionRepository.save(any())).thenReturn(expectedTransaction);
+		when(lockByKey.getLock(any())).thenReturn(mock(Lock.class));
 
 		var transactionDTO = executeTransactionService.execute(executeTransactionDTO);
 		assertNotNull(transactionDTO);
@@ -84,6 +91,7 @@ public class ExecuteTransactionServiceImplTest
 
 		doNothing().when(accountService).withdraw(executeTransactionDTO.accountId(), executeTransactionDTO.amount());
 		when(transactionRepository.save(any())).thenReturn(expectedTransaction);
+		when(lockByKey.getLock(any())).thenReturn(mock(Lock.class));
 
 		var transactionDTO = executeTransactionService.execute(executeTransactionDTO);
 		assertNotNull(transactionDTO);

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
+import java.util.concurrent.locks.Lock;
 
 @Service
 public class ExecuteTransactionServiceImpl implements ExecuteTransactionService
@@ -23,18 +24,20 @@ public class ExecuteTransactionServiceImpl implements ExecuteTransactionService
 	@Autowired
 	TransactionRepository transactionRepository;
 
-	private final LockByKey lockByKey = new LockByKey();
+	@Autowired
+	LockByKey lockByKey;
 
 	@Override
 	public TransactionDTO execute(ExecuteTransactionDTO executeTransactionDTO)
 	{
-		lockByKey.lock(executeTransactionDTO.accountId());
+		Lock lock = lockByKey.getLock(executeTransactionDTO.accountId());
+		lock.lock();
 		switch (executeTransactionDTO.type())
 		{
 			case DEPOSIT -> executeDeposit(executeTransactionDTO);
 			case WITHDRAW -> executeWithdraw(executeTransactionDTO);
 		}
-		lockByKey.unlock(executeTransactionDTO.accountId());
+		lock.unlock();
 		return registerTransaction(executeTransactionDTO);
 	}
 
